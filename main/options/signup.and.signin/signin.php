@@ -13,7 +13,7 @@
 			<label for="password">Password</label>
 			<input type="password" id="password" name="password" required>
 			<input type="submit" value="Sign In">
-			<center> <br>don't have an account <a href="signup.html"> sing up</a></center>
+			<center> <br>don't have an account <a href="signup.php"> sing up</a></center>
 		</form>
 	</div>
 </body>
