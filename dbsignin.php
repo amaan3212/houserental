@@ -14,17 +14,17 @@ if ($role === 'user') {
     $sql = "SELECT * FROM owners WHERE username='$username' AND password='$password' AND role='$role'";
 }
 $result = $con->query($sql);
-
 if ($result) {
     if ($result->num_rows > 0) {
         include 'main1.html';
         echo "";
     } else {
-        echo "Invalid username or password.";
+        header("HTTP/1.1 400 Bad Request");
+        echo "Invalid password.";
     }
 } else {
-    echo "Error executing the query: " . $con->error;
+    header("HTTP/1.1 400 Bad Request");
+    echo "Invalid password.";
 }
-
 $con->close();
 ?>
