@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Unset all of the session variables
-$_SESSION = array();
-
-// Destroy the session
+// Destroy all session data
+session_unset();
 session_destroy();
 
-// Redirect to the login page
-header("Location: dbsignin.html");
+// Redirect to the signin page
+header("Location: signin.html");
 exit();
 ?>

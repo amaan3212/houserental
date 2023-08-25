@@ -1,13 +1,12 @@
 
 header {
-	background-color: #291541;
-	color: #fff;
-	height: 0.8cm;
-	line-height: 0cm;
-	padding: 10px;
-    font-family: Georgia, sans-serif;
-    font-size: 0.8rem;
-    font-weight: normal; 
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #28115d;
+    color: rgb(255, 255, 255);
+    opacity: 1.0; /* Apply opacity to the navbar */
 }
 
 nav ul {
@@ -17,7 +16,7 @@ nav ul {
 }
 
 nav ul li {
-	display: inline-block;
+	display: block;
 	margin-right: 20px;
 }
 

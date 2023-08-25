@@ -1,31 +1,46 @@
 <?php
-    $con = new mysqli("dwellspot","root","root","dwellspot");
-    if ($con->connect_error) {
-        die("Failed to connect to MYSQL : ". $con->connect_errno);
-    }
-    $sql="CREATE TABLE users (username varchar(200) primary key,email varchar(225),password varchar(20),role ENUM('user','owner'),phno varchar(20)";
-    $msql="CREATE TABLE owners (username varchar(200) primary key,email varchar(225),password varchar(20),role ENUM('user','owner'),phno varchar(20)";
-    if($res=$con->query($sql)){
-        echo "login database used";
-    }
-    if($res=$con->query($msql)){
-        echo "login database used";
-    }
+include 'dbcon.php';
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $email = $_POST['mail'];
     $password = $_POST["password"];
-    $phno = $_POST['phno'];
     $role = $_POST['role'];
-    if ($role === 'user') {
-        $sql = "INSERT INTO users (username, email, password, role, phno) VALUES ('$username', '$email', '$password', '$role', '$phno')";
-      } elseif ($role === 'owner') {
-        $sql = "INSERT INTO owners (username, email, password, role, phno) VALUES ('$username','$email', '$password', '$role', '$phno')";
-      } else {
+    $email = $_POST['email'];
+    $phno = $_POST['phno'];
+
+    if ($role === 'user' || $role === 'owner') {
+        $sql = "INSERT INTO " . ($role === 'user' ? 'users' : 'owners') . " (username, email, password, phno, role) VALUES ('$username', '$email', '$password', '$phno', '$role')";
+
+        if ($con->query($sql) === true) {
+            // Set session variables
+            if ($role === 'user') {
+                $_SESSION['userData'] = [
+                    'username' => $username,
+                    'phno' => $phno,
+                    'email' => $email,
+                    'role' => $role
+                ];
+                $_SESSION['userType'] = 'user';
+            } elseif ($role === 'owner') {
+                $_SESSION['ownerData'] = [
+                    'username' => $username,
+                    'phno' => $phno,
+                    'email' => $email,
+                    'role' => $role
+                ];
+                $_SESSION['userType'] = 'owner';
+            }
+
+            // Redirect to the profile page
+            echo '<script>alert("Successfully Signedup!")</script>';
+            header("Location: main2.html");
+            exit();
+        } else {
+          echo '<script>alert("UserName/Mail not available!")</alert>';
+        }
+    } else {
         echo "Invalid role.";
-        exit;
-      } 
-      if ($con->query($sql) === True) {
-        include 'main1.html';
-        echo " ";
     }
+}
 ?>

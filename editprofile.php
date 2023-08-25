@@ -1,40 +1,63 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: dbsignin.html"); // Redirect to login page if not logged in
-    exit();
-}
-
-// Retrieve user data from the session or database
-$userID = $_SESSION['user_id'];
-$username = $_SESSION['username'];
-$email = $_SESSION['email'];
-
-// Display the edit profile form
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="myprofile.css">
     <title>Edit Profile</title>
+    <link rel="stylesheet" href="editprofile1.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Profile</h1>
-        <form action="updateprofile.php" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo $username; ?>" required>
+    <div class="profile-container">
+    <?php
+    session_start();
+    
+    if (isset($_SESSION['userType'])) {
+        if ($_SESSION['userType'] === 'user') {
+            $userData = $_SESSION['userData'];
             
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo $email; ?>" required>
+            echo "<center><h1>Edit Profile <br>" . $userData['username'] . "</h1></center>";
+            ?>
+            <form action="updateprofile.php" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<?php echo $userData['username']; ?>" required><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo $userData['email']; ?>" required><br>
+
+                <label for="phno">Phone Number:</label>
+                <input type="tel" id="phno" name="phno" value="<?php echo $userData['phno']; ?>" required><br>
+
+                <input type="submit" value="Update Profile">
+            </form>
+            <?php
+            // Display a form here to allow users to edit their profile information
+        } elseif ($_SESSION['userType'] === 'owner') {
+            $ownerData = $_SESSION['ownerData'];
             
-            <input type="submit" value="Save Changes">
-        </form>
-        <a href="myprofile.php">Back to Dashboard</a>
+            echo "<center><h1>Edit Profile <br>" . $ownerData['username'] . "</h1></center>";
+            ?>
+            <form action="updateprofile.php" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<?php echo $ownerData['username']; ?>" required><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo $ownerData['email']; ?>" required><br>
+
+                <label for="phno">Phone Number:</label>
+                <input type="tel" id="phno" name="phno" value="<?php echo $ownerData['phno']; ?>" required><br>
+
+                <input type="submit" value="Update Profile">
+            </form>
+            <?php
+        }
+    } else {
+        header("Location: signin.html");
+        exit(); 
+    }
+    ?>
     </div>
 </body>
+<script>
+    window.onpopstate = function() {
+        window.location.href = "profile1.php";
+    };
+</script>
 </html>

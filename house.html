@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Property</title>
+    <link rel="stylesheet" href="house.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Property</h1>
+        <form action="submithouse.php" method="post" enctype="multipart/form-data">
+            <label for="images">Upload Images</label>
+            <input type="file" name="images[]" multiple accept="image/*">
+
+            <label for="housetype">House Type</label>
+            <input type="text" name="housetype" required>
+            
+            <label for="location">Location</label>
+            <input type="text" name="location" required>
+            
+            <label for="price">Price</label>
+            <input type="number" name="price" required>
+            
+            <label for="phno">Owners Phone Number</label>
+            <textarea name="phno" rows="1" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
